@@ -1,1 +1,45 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101629"><title>SomniPredict · Your sleep, in perspective</title>
+  <link rel="stylesheet" href="/static/style.css"><script src="/static/script.js" defer></script>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+  <header class="topbar"><a class="brand" href="/" aria-label="SomniPredict home"><span class="brand-icon">☾</span> Somni<span>Predict</span></a><span class="header-tag"><i></i> Sleep pattern explorer</span></header>
+  <main>
+    <section class="hero"><span class="eyebrow">A LITTLE INSIGHT. A BETTER PERSPECTIVE.</span><h1>Your day tells<br>a <em>sleep story.</em></h1><p>Explore how your routine translates into a sleep-type prediction. One profile. Two machine learning models.</p><div class="hero-tags"><span>✧ Random Forest</span><span>✧ MLP Classifier</span><span>12 personal inputs</span></div><div class="moon-art" aria-hidden="true"><div class="orbit"></div><div class="moon"></div><span class="star s1">✦</span><span class="star s2">✧</span><span class="star s3">·</span><div class="moon-caption">EVERY NIGHT HAS A PATTERN</div></div></section>
+    <div class="workspace">
+      <section class="form-panel" aria-labelledby="profile-title">
+        <div class="panel-top"><div><span class="eyebrow">YOUR DAILY SNAPSHOT</span><h2 id="profile-title">Let's get to know your routine</h2></div><button type="button" class="text-button" id="sample">Try sample ↗</button></div>
+        <div class="completion"><div><span>Profile completion</span><span id="progress-text">4 of 12</span></div><progress id="progress" value="4" max="12" aria-label="Profile completion"></progress></div>
+        <form id="sleep-form">
+          <fieldset><legend><span class="section-number">01</span> You & your sleep <small>The basics of your night</small></legend>
+            <div class="field-grid"><div class="field"><label for="age">Age <span>years</span></label><input id="age" type="number" min="1" max="120" step="1" placeholder="25" required></div>
+            <div class="field"><label for="hours">Total sleep <span>hours</span></label><input id="hours" type="number" min="0" max="24" step="any" placeholder="7.5" required><small>Enter your actual time asleep.</small></div>
+            <div class="field"><label for="start">Bedtime</label><input id="start" type="time" required></div><div class="field"><label for="end">Wake-up time</label><input id="end" type="time" required></div></div>
+          </fieldset>
+          <fieldset><legend><span class="section-number">02</span> Your daily rhythm <small>Small habits, useful context</small></legend><div class="field-grid">
+            <div class="field"><label for="exercise">Exercise <span>min / day</span></label><input id="exercise" type="number" min="0" max="1440" step="any" placeholder="30" required></div>
+            <div class="field"><label for="caffeine">Caffeine <span>mg / day</span></label><input id="caffeine" type="number" min="0" step="any" placeholder="100" required></div>
+            <div class="field"><label for="screen">Screen time before bed <span>min</span></label><input id="screen" type="number" min="0" max="1440" step="any" placeholder="60" required></div>
+            <div class="field"><label for="work">Work hours <span>hrs / day</span></label><input id="work" type="number" min="0" max="24" step="any" placeholder="8" required></div>
+          </div></fieldset>
+          <fieldset><legend><span class="section-number">03</span> How you feel <small>Your own rating, from 1 to 10</small></legend><div class="field-grid scores">
+            <div class="field"><label for="productivity">Productivity <output for="productivity" id="productivity-value">6</output></label><input id="productivity" type="range" min="1" max="10" value="6"><div class="range-labels"><span>Low</span><span>High</span></div></div>
+            <div class="field"><label for="mood">Mood <output for="mood" id="mood-value">7</output></label><input id="mood" type="range" min="1" max="10" value="7"><div class="range-labels"><span>Low</span><span>High</span></div></div>
+            <div class="field"><label for="stress">Stress level <output for="stress" id="stress-value">3</output></label><input id="stress" type="range" min="1" max="10" value="3"><div class="range-labels"><span>Relaxed</span><span>Very stressed</span></div></div>
+            <div class="field"><label for="quality">Sleep quality <output for="quality" id="quality-value">8</output></label><input id="quality" type="range" min="1" max="10" value="8"><div class="range-labels"><span>Poor</span><span>Excellent</span></div></div>
+          </div></fieldset>
+          <p class="error" id="error" role="alert" hidden></p>
+          <div class="form-bottom"><button type="reset" class="text-button">Reset profile</button><button type="submit" class="primary" id="predict">Explore my sleep <span>→</span></button></div>
+        </form>
+      </section>
+      <aside class="insights"><section class="result-panel" aria-labelledby="result-title" aria-live="polite" aria-atomic="true"><span class="eyebrow">THE OTHER SIDE OF YOUR ROUTINE</span><h2 id="result-title">Your sleep perspective</h2><div class="empty-state" id="empty"><div class="sleep-icon" aria-hidden="true">☾<sup>z</sup></div><h3>A little about you.<br>A new perspective on sleep.</h3><p>Complete your profile to see the sleep type predicted by each model.</p></div><div id="results" hidden><p class="result-intro">Predicted dominant sleep stage</p><article class="model-card"><span class="model-badge">RF</span><div><span>Random Forest</span><h3 id="rf-result"></h3></div></article><article class="model-card"><span class="model-badge pink">NN</span><div><span>MLP Classifier</span><h3 id="mlp-result"></h3></div></article><p id="agreement" class="agreement"></p><p class="stale" id="stale" hidden>Profile changed. Run again to update these results.</p></div><div class="model-status" id="status">Checking model files…</div></section>
+      <section class="note"><span aria-hidden="true">ⓘ</span><div><h3>A prediction, with perspective</h3><p>This project estimates a label from your daily inputs. Sleep stages are measured with sleep-monitoring equipment; these results are not a medical diagnosis.</p></div></section><div class="privacy">⌁ Your inputs are used for this request.<br>This app does not save your profile.</div></aside>
+    </div>
+    <footer><span>SomniPredict</span><span>Built around your routine. Powered by two models.</span></footer>
+  </main>
+</body>
+</html>
